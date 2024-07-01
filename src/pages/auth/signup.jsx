@@ -7,7 +7,7 @@ function Signup() {
               <input autoComplete="one-time-code" type="text" placeholder="Username..." className="input input-bordered w-full max-w-xs text-white" />
               <input autoComplete="one-time-code" type="email" placeholder="Email Id..." className="input input-bordered w-full max-w-xs text-white" />
               <input autoComplete="one-time-code" type="password" placeholder="Password..." className="input input-bordered w-full max-w-xs text-white" />
-              <input autoComplete="one-time-code" type="password" placeholder="Confitrm Password..." className="input input-bordered w-full max-w-xs text-white" />
+              <input autoComplete="one-time-code" type="password" placeholder="Confirm Password..." className="input input-bordered w-full max-w-xs text-white" />
               <details className="dropdown w-full">
                 <summary className="btn m-1">USER TYPE</summary>
                 <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
