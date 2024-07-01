@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit"
+import authSLiceReducer from "./Slices/AuthSLice";
 
 const store = configureStore({
-    reducer: {},
+    reducer: {
+        auth: authSLiceReducer
+    },
     devTools: true
 });
 
