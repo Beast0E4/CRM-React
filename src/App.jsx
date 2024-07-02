@@ -1,14 +1,11 @@
 import './App.css';
 
-import Signup from './pages/auth/signup';
+import MainRoutes from './routing/mainroutes';
 
 function App() {
 
   return (
-    <>
-    {/* <Login /> */}
-    <Signup />
-    </>
+    <MainRoutes/>
   );
 }
 
