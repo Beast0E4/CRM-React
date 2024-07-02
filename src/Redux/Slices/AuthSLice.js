@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
 
 import axiosInstance from "../../config/axiosinstance";
 
@@ -11,8 +12,12 @@ const initialState = {
 
 export const login = createAsyncThunk('/auth/login', async (data) => {     
     try {
-        console.log(`Data: ${data}`);
         const response = axiosInstance.post("auth/signin", data);
+        toast.promise(response, {
+            loading: 'Subitting the details',
+            success: 'Successfully logged in',
+            error: 'Something went wrong, try again'
+        });
         return await response;
     } catch (error) {
         console.log(error);
@@ -21,8 +26,12 @@ export const login = createAsyncThunk('/auth/login', async (data) => {
 
 export const signup = createAsyncThunk('/auth/signup', async (data) => {     
     try {
-        console.log(`Data: ${data}`);
         const response = axiosInstance.post("auth/signup", data);
+        toast.promise(response, {
+            loading: 'Subitting the details',
+            success: 'Successfully signed up',
+            error: 'Something went wrong, try again'
+        });
         return await response;
     } catch (error) {
         console.log(error);
