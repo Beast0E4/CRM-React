@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { login } from '../../Redux/Slices/AuthSLice';
 
@@ -61,8 +62,11 @@ function resetLoginState() {
                   className="input input-bordered w-full max-w-xs text-white" 
               />
               <div className="card-actions w-full mt-4">
-                <button onClick={onSubmit} className="btn btn-warning w-full font-bold text-lg">SUBMIT</button>
+              <button onClick={onSubmit} className="btn btn-warning w-full font-bold text-lg hover:bg-transparent hover:border-1 hover:border-black">SUBMIT</button>
               </div>
+              <p>
+                Not yet registered? <Link to="/signup" className="underline font-semibold hover:font-bold">Sign Up</Link>
+              </p>
           </div>
         </div>
       </div>

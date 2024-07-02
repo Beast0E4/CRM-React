@@ -1,27 +1,121 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+import { signup } from '../../Redux/Slices/AuthSLice';
+
 function Signup() {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [signUpDetails, setSignUpDetails] = useState({
+    email: "",
+    password:"",
+    name: "",
+    userType: "",
+    userStatus: "",
+    clientName: ""
+  });
+
+  function handleInputChange(e) {
+    const {name, value} = e.target;
+    setSignUpDetails({
+      ...signUpDetails,
+      [name]: value
+    });
+  }
+
+function resetSignUpState() {
+  setSignUpDetails({
+    email: "",
+    password:"",
+    name: "",
+    userType: "",
+    userStatus: "",
+    clientName: ""
+  });
+}
+
+  async function onSubmit() {
+    if(!signUpDetails.email || !signUpDetails.password || !signUpDetails.userStatus || !signUpDetails.userType || !signUpDetails.clientName || !signUpDetails.name) return;
+    const response = await dispatch(signup(signUpDetails));
+    console.log(response);
+    if(response.payload) navigate("/login");
+    else resetSignUpState();
+  }
+
+  function handleUserType(e) {
+    const userTypeSelected = e.target.textContent;
+    setSignUpDetails({
+      ...signUpDetails,
+      userType: userTypeSelected.toLowerCase(),
+      userStatus: (userTypeSelected === "Customer" ? "approved" : "suspended")
+    });
+    const dropdown = document.getElementById('userTypeDropdown');
+    dropdown.open = !dropdown.open;
+  }
+
     return (
-        <div className="flex justify-center items-center h-[90vh]">
+      <div className="flex justify-center items-center h-[90vh]">
         <div className="card bg-primary text-primary-content w-96">
           <div className="card-body flex items-center">
               <h2 className="card-title text-4xl text-white font-bold">Sign Up</h2>
-              <input autoComplete="one-time-code" type="text" placeholder="Username..." className="input input-bordered w-full max-w-xs text-white" />
-              <input autoComplete="one-time-code" type="email" placeholder="Email Id..." className="input input-bordered w-full max-w-xs text-white" />
-              <input autoComplete="one-time-code" type="password" placeholder="Password..." className="input input-bordered w-full max-w-xs text-white" />
-              <input autoComplete="one-time-code" type="password" placeholder="Confirm Password..." className="input input-bordered w-full max-w-xs text-white" />
-              <details className="dropdown w-full">
-                <summary className="btn m-1">USER TYPE</summary>
-                <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+              <input 
+                  name="name" 
+                  onChange={handleInputChange} 
+                  autoComplete="one-time-code" 
+                  type="text" 
+                  placeholder="Name..." 
+                  value={signUpDetails.name}
+                  className="input input-bordered w-full max-w-xs text-white" 
+              />
+              <input 
+                  onChange={handleInputChange} 
+                  name="email" 
+                  autoComplete="one-time-code" 
+                  type="email" 
+                  placeholder="Email..." 
+                  value={signUpDetails.email}
+                  className="input input-bordered w-full max-w-xs text-white" 
+              />
+              <input 
+                  name="password" 
+                  onChange={handleInputChange} 
+                  autoComplete="one-time-code" 
+                  type="password" 
+                  placeholder="Password..." 
+                  value={signUpDetails.password}
+                  className="input input-bordered w-full max-w-xs text-white" 
+              />
+              <details className="dropdown w-full" id="userTypeDropdown">
+                <summary className="btn m-1">{(!signUpDetails.userType) ? "USER TYPE" : signUpDetails.userType.toUpperCase()}</summary>
+                <ul onClick={handleUserType} className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                    <li><a className="text-white">Admin</a></li>
                     <li><a className="text-white">Customer</a></li>
                     <li><a className="text-white">Enginner</a></li>
                 </ul>
-            </details>
+              </details>
+              <input 
+                  name="clientName" 
+                  onChange={handleInputChange} 
+                  autoComplete="one-time-code" 
+                  type="text" 
+                  placeholder="Client Name..." 
+                  value={signUpDetails.clientName}
+                  className="input input-bordered w-full max-w-xs text-white" 
+              />
               <div className="card-actions w-full mt-4">
-                <button className="btn btn-warning w-full font-bold text-lg">SUBMIT</button>
+                <button onClick={onSubmit} className="btn btn-warning w-full font-bold text-lg hover:bg-transparent hover:border-1 hover:border-black">SUBMIT</button>
               </div>
+              <p>
+                Already registered? <Link to="/login" className="underline font-semibold hover:font-bold">Login</Link>
+              </p>
           </div>
         </div>
       </div>
-    )
-}
-
-export default Signup
+    );
+  }
+  
+  export default Signup;
