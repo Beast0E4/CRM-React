@@ -35,7 +35,7 @@ function HomeLayout( {children}) {
                         <li><a>View all tickets</a></li>
                         <li><a>Dashboard</a></li>
                         <li className="absolute bottom-10">
-                            <div className="w-full flex justify-center items-center gap-10">
+                            <div className="w-full flex justify-center items-center gap-8">
                                 {
                                     !authState.isLoggedIn ? (
                                         <>
