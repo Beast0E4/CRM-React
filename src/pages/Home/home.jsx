@@ -1,6 +1,10 @@
+import HomeLayout from "../../layouts/homelayout";
+
 function Home() {
     return (
-        <h1>Home</h1>
+        <HomeLayout>
+            
+        </HomeLayout>
     );
 }
 
