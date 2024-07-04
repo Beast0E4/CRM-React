@@ -94,7 +94,7 @@ function resetSignUpState() {
                 <ul onClick={handleUserType} className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                     <li><a className="text-white">Admin</a></li>
                     <li><a className="text-white">Customer</a></li>
-                    <li><a className="text-white">Enginner</a></li>
+                    <li><a className="text-white">Engineer</a></li>
                 </ul>
               </details>
               <input 
