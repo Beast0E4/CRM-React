@@ -1,34 +1,21 @@
-import { useEffect } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { GrInProgress } from "react-icons/gr";
 import { IoMdDoneAll } from "react-icons/io";
 import { MdPending } from "react-icons/md";
 import { TiCancel } from "react-icons/ti";
-import { useDispatch, useSelector } from "react-redux";
 
 import Card from "../../components/card";
+import useTickets from "../../hooks/useTickets";
 import HomeLayout from "../../layouts/homelayout";
-import { getAllTicketsForTheUser } from "../../Redux/Slices/TicketSlice";
 
 function Home() {
 
-    const authState = useSelector((state) => state.auth);
-    const ticketState = useSelector((state) => state.tickets);
-
-    const dispatch = useDispatch();
-
-    async function loadTickets(){
-        const response = await dispatch(getAllTicketsForTheUser());
-        console.log(response);
-    }
-
-    useEffect(() => {
-        loadTickets();
-    }, [authState.token]);
+    const [ticketState] = useTickets();
 
     return (
         <HomeLayout>
-            <div className="flex flex-row gap-5 justify-center items-center flex-wrap mt-10">
+            {ticketState && (
+                <div className="flex flex-row gap-5 justify-center items-center flex-wrap mt-10">
                 <Card 
                     titleText="Open"
                     status={ticketState.ticketList.length ? (ticketState.ticketDistribution.open / ticketState.ticketList.length * 100).toFixed(2) : 0}
@@ -73,6 +60,7 @@ function Home() {
                     <TiCancel className="inline mr-2"/>
                 </Card>
             </div>
+            )}
         </HomeLayout>
     );
 }
