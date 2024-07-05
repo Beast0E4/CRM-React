@@ -10,13 +10,18 @@ import { TiCancel } from "react-icons/ti";
 import Card from "../../components/card";
 import useTickets from "../../hooks/useTickets";
 import HomeLayout from "../../layouts/homelayout";
+import { BsBorderWidth } from "react-icons/bs";
 
 ChartJS.register(ArcElement, Legend, Title, Tooltip, CategoryScale, LinearScale, PointElement, LineElement);
 
 function Home() {
 
     const [ticketState] = useTickets();
-    const [openTickets, setOpenTickets] = useState({});
+    const [ticketsChartData, setTicketsChartData] = useState({
+        openTickets: [],
+        inProgressTickets: [],
+        resolvedTickets: []
+    });
 
     const pieChartData = {
         labels: Object.keys(ticketState?.ticketDistribution),
@@ -32,27 +37,68 @@ function Home() {
     };
 
     const lineChartData = {
-        labels: Object.keys(openTickets),
+        labels: Object.keys(ticketsChartData.openTickets),
         textColor: 'white',
         datasets: [
             {
                 label: "Open Tickets Data",
-                data: Object.values(openTickets),
+                data: Object.values(ticketsChartData.openTickets),
                 borderColor: 'red',
-                backgroundColor: 'pink'
+                backgroundColor: 'red',
+                borderWidth: 1
+            },
+            {
+                label: "In Progress Tickets Data",
+                data: Object.values(ticketsChartData.inProgressTickets),
+                borderColor: 'blue',
+                backgroundColor: 'blue',
+                borderWidth: 2
+            },
+            {
+                label: "Resolved Tickets Data",
+                data: Object.values(ticketsChartData.resolvedTickets),
+                borderColor: 'green',
+                backgroundColor: 'green',
+                borderWidth: 4
             }
         ]
     };
 
-    useEffect(() => {
+    function processOpenTickets() {
+        const currDate = new Date();
+        const tenthDayFromToday = new Date();
+        tenthDayFromToday.setDate(currDate.getDate() - 10);
         if(ticketState.ticketList.length > 0) {
             let openTicketData = {};
+            let inProgressTicketData = {};
+            let resolvedTicketData = {};
+            for(let i = 0; i < 10; i ++){
+                const dateObject = new Date();
+                dateObject.setDate(currDate.getDate() - i);
+                openTicketData[dateObject.toISOString().split("T")[0].split("/").reverse().join("-")] = 0;
+                inProgressTicketData[dateObject.toISOString().split("T")[0].split("/").reverse().join("-")] = 0;
+                resolvedTicketData[dateObject.toISOString().split("T")[0].split("/").reverse().join("-")] = 0;
+            }
             ticketState.ticketList.forEach(ticket => {
                 const date = ticket.createdAt.split("T")[0];
-                if(ticket.status === 'open') openTicketData[date] = (!openTicketData[date] ? 1 : openTicketData[date] + 1);
+                const ticketDate = new Date(ticket.createdAt);
+                if(ticket.status === 'open' && ticketDate >= tenthDayFromToday) 
+                    openTicketData[date] = openTicketData[date] + 1;
+                if(ticket.status === 'inProgress' && ticketDate >= tenthDayFromToday) 
+                    inProgressTicketData[date] = inProgressTicketData[date] + 1;
+                if(ticket.status === 'resolved' && ticketDate >= tenthDayFromToday) 
+                    resolvedTicketData[date] = resolvedTicketData[date] + 1;
             });
-            setOpenTickets(openTicketData);
+            setTicketsChartData({
+                openTickets: openTicketData,
+                inProgressTickets: inProgressTicketData,
+                resolvedTickets: resolvedTicketData
+            });
         }
+    }
+
+    useEffect(() => {
+        processOpenTickets();        
     }, [ticketState.ticketList]);
 
 
@@ -110,9 +156,9 @@ function Home() {
                     <Pie data={pieChartData} />
                 </div>
             </div>
-            <div className="mt-10 flex justify-center items-center">
-                <div className="w-[40rem]">
-                    <Line data={lineChartData}/>
+            <div className="mt-10 flex justify-center items-center ">
+                <div className="w-[50rem] py-8">
+                    <Line data={lineChartData} className="bg-yellow-100"/>
                 </div>
             </div>
         </HomeLayout>
