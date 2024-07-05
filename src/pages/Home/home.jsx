@@ -1,5 +1,6 @@
-import { ArcElement, Chart as ChartJS, Legend, Title, Tooltip } from "chart.js";
-import { Pie } from "react-chartjs-2";
+import { ArcElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from "chart.js";
+import { useEffect, useState } from "react";
+import { Line, Pie } from "react-chartjs-2";
 import { FaPencilAlt } from "react-icons/fa";
 import { GrInProgress } from "react-icons/gr";
 import { IoMdDoneAll } from "react-icons/io";
@@ -10,11 +11,12 @@ import Card from "../../components/card";
 import useTickets from "../../hooks/useTickets";
 import HomeLayout from "../../layouts/homelayout";
 
-ChartJS.register(ArcElement, Legend, Title, Tooltip);
+ChartJS.register(ArcElement, Legend, Title, Tooltip, CategoryScale, LinearScale, PointElement, LineElement);
 
 function Home() {
 
     const [ticketState] = useTickets();
+    const [openTickets, setOpenTickets] = useState({});
 
     const pieChartData = {
         labels: Object.keys(ticketState?.ticketDistribution),
@@ -28,6 +30,30 @@ function Home() {
             }
         ]
     };
+
+    const lineChartData = {
+        labels: Object.keys(openTickets),
+        textColor: 'white',
+        datasets: [
+            {
+                label: "Open Tickets Data",
+                data: Object.values(openTickets),
+                borderColor: 'red',
+                backgroundColor: 'pink'
+            }
+        ]
+    };
+
+    useEffect(() => {
+        if(ticketState.ticketList.length > 0) {
+            let openTicketData = {};
+            ticketState.ticketList.forEach(ticket => {
+                const date = ticket.createdAt.split("T")[0];
+                if(ticket.status === 'open') openTicketData[date] = (!openTicketData[date] ? 1 : openTicketData[date] + 1);
+            });
+            setOpenTickets(openTicketData);
+        }
+    }, [ticketState.ticketList]);
 
 
     return (
@@ -79,12 +105,14 @@ function Home() {
                 </Card>
             </div>
             )}
-            <div className="mt-10 flex justify-center items-center gpa-10">
+            <div className="mt-10 flex justify-center items-center">
                 <div className="w-80 h-80">
                     <Pie data={pieChartData} />
                 </div>
-                <div className="w-80 h-80">
-                    <Pie data={pieChartData} />
+            </div>
+            <div className="mt-10 flex justify-center items-center">
+                <div className="w-[40rem]">
+                    <Line data={lineChartData}/>
                 </div>
             </div>
         </HomeLayout>
