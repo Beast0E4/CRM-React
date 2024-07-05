@@ -21,10 +21,10 @@ function HomeLayout( {children}) {
     }, []);
 
     return (
-        <div className="min-h-[90vh]">
+        <div className="min-h-[90vh] py-4">
             <div className="drawer absolute left-0 right-0">
                 <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-                <div className="drawer-content mt-4 ml-4">
+                <div className="drawer-content ml-4">
                     <label htmlFor="my-drawer">
                         <GiHamburgerMenu size={'32px'} className="hover:cursor-pointer"/>
                     </label>
