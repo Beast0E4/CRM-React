@@ -7,12 +7,12 @@ function Dashboard() {
 
     return (
         <HomeLayout>
-            <div className="min-h-[90vh] flex flex-col items-center justify-center gap-2">
-                <div className="bg-blue-500 text-black w-full text-center text-3xl p-4 font-bold">
-                    Tickets Records
+            <div className="min-h-[90vh] flex flex-col items-center justify-center gap-2" id="table">
+                <div className="bg-[#3FA2F6] text-black w-full text-center text-3xl p-4 font-bold">
+                    Tickets Records 
                 </div>
                 <div className="flex flex-col w-full">
-                    <div className="flex justify-between items-center gap-3 bg-blue-600 py-2 border-b-4 border-black">
+                    <div className="flex justify-between items-center gap-3 bg-[#0F67B1] py-2 border-b-4 border-black">
                         <div className="table-title basis-[8%]">
                             ID
                         </div>
@@ -38,8 +38,8 @@ function Dashboard() {
 
                     {ticketState && ticketState.ticketList.map((ticket) => {
                         return (
-                            <div key={ticket._id} className="my-[2px] flex justify-between items-center bg-blue-200
-                                             hover:bg-blue-300 py-2 border-b-[1px] border-black transition-all ease-in-out">
+                            <div key={ticket._id} className="my-[2px] flex justify-between items-center bg-[#BBE9FF]
+                                             hover:bg-[#A0DEFF] py-2 border-b-[1px] border-black transition-all ease-in-out">
                                 <div className="table-info basis-[8%] border-r-[1px] border-black">
                                     {ticket._id.substring(0, 5) + "..."}
                                 </div>
