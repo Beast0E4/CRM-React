@@ -71,13 +71,14 @@ function Dashboard() {
                 <div className="bg-[#3FA2F6] text-black w-full text-center text-3xl p-4 font-bold">
                     Tickets Records 
                 </div>
-                <div className="w-full " style={{zIndex: -1}}>
+                <div className="w-full ">
                     {ticketState && <DataTable
                         columns={columns}
                         data={ticketState.ticketList}
-                        expandableRows expandableRowsComponent={ExpandedComponent}
+                        expandableRows 
+                        expandableRowsComponent={ExpandedComponent}
+                        // style={{zIndex: -1}}
                         pagination
-                        className="z-0"
                         theme="solarized"
                     />}
                 </div>

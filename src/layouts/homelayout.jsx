@@ -22,7 +22,7 @@ function HomeLayout( {children}) {
 
     return (
         <div className="min-h-[90vh] py-4">
-            <div className="drawer absolute left-0 right-0">
+            <div className="drawer absolute left-0 right-0" style={{zIndex: 10000}}>
                 <input id="my-drawer" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content ml-4">
                     <label htmlFor="my-drawer">
@@ -34,7 +34,7 @@ function HomeLayout( {children}) {
                     <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
                         <li><Link to={'/'}>Home</Link></li>
                         <li><Link to={'/dashboard'}>Dashboard</Link></li>
-                        <li><a>View all tickets</a></li>
+                        {!authState.role === 'admin' && <li><Link to={'/users'}>View all users</Link></li>}
                         <li className="absolute bottom-10">
                             <div className="w-full flex justify-center items-center gap-8">
                                 {
