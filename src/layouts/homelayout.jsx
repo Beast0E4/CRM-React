@@ -34,7 +34,7 @@ function HomeLayout( {children}) {
                     <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
                         <li><Link to={'/'}>Home</Link></li>
                         <li><Link to={'/dashboard'}>Dashboard</Link></li>
-                        {!authState.role === 'admin' && <li><Link to={'/users'}>View all users</Link></li>}
+                        {authState.role === 'admin' && <li><Link to={'/users'}>View all users</Link></li>}
                         <li className="absolute bottom-10">
                             <div className="w-full flex justify-center items-center gap-8">
                                 {

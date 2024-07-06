@@ -54,6 +54,13 @@ function ListAllUsers() {
       }, 'dark');
 
     const [userList, setUserList] = useState([]);
+    const [userDisplay, setUserDisplay] = useState({
+        name: '',
+        email: '',
+        userStatus: '',
+        userType: '',
+        clientName: ''
+    })
 
     async function loadUsers() {
         const response = await axiosInstance.get('/users', {
@@ -75,10 +82,33 @@ function ListAllUsers() {
                     Users Records 
                 </div>
                 {userList && <DataTable
+                    onRowClicked={(row) => {
+                        setUserDisplay({
+                            name: row.name,
+                            email: row.email,
+                            userStatus: row.userStatus,
+                            userType: row.userType,
+                            clientName: row.clientName 
+                        })
+                        document.getElementById('userModal').showModal()}}
                     columns={columns}
                     data={userList}
                     theme="solarized"
+                    className="hover:cursor-pointer"
                 />}
+                <dialog id="userModal" className="modal">
+                    <div className="modal-box">
+                        <h3 className="font-bold text-lg text-yellow-600">USER DETAILS</h3>
+                        <p className="py-2"><span className="font-bold text-yellow-600 text-lg">Name : </span> {userDisplay.name}</p>
+                        <p className="py-2"><span className="font-bold text-yellow-600 text-lg">Email : </span> {userDisplay.email}</p>
+                        <p className="py-2"><span className="font-bold text-yellow-600 text-lg">Status : </span> {userDisplay.userStatus}</p>
+                        <p className="py-2"><span className="font-bold text-yellow-600 text-lg">Type : </span> {userDisplay.userType}</p>
+                        <p className="py-2"><span className="font-bold text-yellow-600 text-lg">Client Name : </span> {userDisplay.clientName}</p>
+                    </div>
+                    <form method="dialog" className="modal-backdrop">
+                        <button>close</button>
+                    </form>
+                </dialog>
             </div>
         </HomeLayout>
     );
