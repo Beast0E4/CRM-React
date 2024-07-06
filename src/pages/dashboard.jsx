@@ -1,3 +1,5 @@
+import DataTable, { createTheme } from "react-data-table-component";
+
 import useTickets from "../hooks/useTickets";
 import HomeLayout from "../layouts/homelayout";
 
@@ -5,66 +7,79 @@ function Dashboard() {
 
     const [ticketState] = useTickets();
 
+    const ExpandedComponent = ({ data }) => <pre>{JSON.stringify(data, null, 2)}</pre>;
+
+    const columns = [
+        {
+            name: 'ID',
+            selector: row => row._id,
+            sortable: true
+        },
+        {
+            name: 'Title',
+            selector: row => row.title,
+        },
+        {
+            name: 'Description',
+            selector: row => row.description,
+        },
+        {
+            name: 'Reporter',
+            selector: row => row.assignedTo,
+        },
+        {
+            name: 'Priority',
+            selector: row => row.ticketPriority,
+            sortable: true
+        },
+        {
+            name: 'Assignee',
+            selector: row => row.assignee,
+        },
+        {
+            name: 'Status',
+            selector: row => row.status,
+            sortable: true
+        }
+    ];
+
+    createTheme('solarized', {
+        text: {
+          primary: '#268bd2',
+          secondary: '#2aa198',
+        },
+        background: {
+          default: 'BBE9FF',
+        },
+        context: {
+          background: '#cb4b16',
+          text: '#FFFFFF',
+        },
+        divider: {
+          default: '#073642',
+        },
+        action: {
+          button: 'rgba(0,0,0,.54)',
+          hover: 'rgba(0,0,0,.08)',
+          disabled: 'rgba(0,0,0,.12)',
+        },
+      }, 'dark');
+
     return (
         <HomeLayout>
             <div className="min-h-[90vh] flex flex-col items-center justify-center gap-2" id="table">
                 <div className="bg-[#3FA2F6] text-black w-full text-center text-3xl p-4 font-bold">
                     Tickets Records 
                 </div>
-                <div className="flex flex-col w-full">
-                    <div className="flex justify-between items-center gap-3 bg-[#0F67B1] py-2 border-b-4 border-black">
-                        <div className="table-title basis-[8%]">
-                            ID
-                        </div>
-                        <div className="table-title basis-[12%]">
-                            Title
-                        </div>
-                        <div className="table-title basis-[20%]">
-                            Description
-                        </div>
-                        <div className="table-title basis-[20%]">
-                            Reporter
-                        </div>
-                        <div className="table-title basis-[7%]">
-                            Priority
-                        </div>
-                        <div className="table-title basis-[20%]">
-                            Assignee
-                        </div>
-                        <div className="table-title basis-[13%]">
-                            Status
-                        </div>
-                    </div>
-
-                    {ticketState && ticketState.ticketList.map((ticket) => {
-                        return (
-                            <div key={ticket._id} className="my-[2px] flex justify-between items-center bg-[#BBE9FF]
-                                             hover:bg-[#A0DEFF] py-2 border-b-[1px] border-black transition-all ease-in-out">
-                                <div className="table-info basis-[8%] border-r-[1px] border-black">
-                                    {ticket._id.substring(0, 5) + "..."}
-                                </div>
-                                <div className="table-info basis-[12%] border-r-[1px] border-black">
-                                    {ticket.title}
-                                </div>
-                                <div className="table-info basis-[20%] border-r-[1px] border-black">
-                                    {ticket.description}
-                                </div>
-                                <div className="table-info basis-[20%] border-r-[1px] border-black">
-                                    {ticket.assignee}
-                                </div>
-                                <div className="table-info basis-[7%] border-r-[1px] border-black">
-                                    {ticket.ticketPriority}
-                                </div>
-                                <div className="table-info basis-[20%] border-r-[1px] border-black">
-                                    {ticket.assignedTo}
-                                </div>
-                                <div className="table-info basis-[13%]">
-                                    {ticket.status}
-                                </div>
-                            </div>
-                        );
-                    })}
-
+                <div className="w-full " style={{zIndex: -1}}>
+                    {ticketState && <DataTable
+                        columns={columns}
+                        data={ticketState.ticketList}
+                        expandableRows expandableRowsComponent={ExpandedComponent}
+                        pagination
+                        className="z-0"
+                        theme="solarized"
+                    />}
                 </div>
 
             </div>
