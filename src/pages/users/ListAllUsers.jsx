@@ -100,7 +100,7 @@ function ListAllUsers() {
                     className="hover:cursor-pointer"
                     highlightOnHover
                 />}
-                <UserDetailsModal key={userDisplay.id} user={userDisplay}/>
+                <UserDetailsModal key={userDisplay.id} user={userDisplay} resetTable={loadUsers}/>
             </div>
         </HomeLayout>
     );
