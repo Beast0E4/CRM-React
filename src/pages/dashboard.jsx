@@ -77,7 +77,7 @@ function Dashboard() {
                         data={ticketState.ticketList}
                         expandableRows 
                         expandableRowsComponent={ExpandedComponent}
-                        // style={{zIndex: -1}}
+                        highlightOnHover
                         pagination
                         theme="solarized"
                     />}

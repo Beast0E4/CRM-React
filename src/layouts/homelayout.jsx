@@ -20,6 +20,7 @@ function HomeLayout( {children}) {
         if(!authState.isLoggedIn) navigate('/login');
     }, []);
 
+
     return (
         <div className="min-h-[90vh] py-4">
             <div className="drawer absolute left-0 right-0" style={{zIndex: 10000}}>

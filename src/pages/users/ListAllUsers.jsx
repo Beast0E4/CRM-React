@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 
+import UserDetailsModal from "../../components/UserDetails.modal";
 import axiosInstance from "../../config/axiosinstance";
 import HomeLayout from "../../layouts/homelayout";
 
@@ -59,8 +60,9 @@ function ListAllUsers() {
         email: '',
         userStatus: '',
         userType: '',
-        clientName: ''
-    })
+        clientName: '',
+        id: ''
+    });
 
     async function loadUsers() {
         const response = await axiosInstance.get('/users', {
@@ -88,27 +90,17 @@ function ListAllUsers() {
                             email: row.email,
                             userStatus: row.userStatus,
                             userType: row.userType,
-                            clientName: row.clientName 
-                        })
-                        document.getElementById('userModal').showModal()}}
+                            clientName: row.clientName ,
+                            id: row._id
+                        });
+                        document.getElementById('userModal').showModal();}}
                     columns={columns}
                     data={userList}
                     theme="solarized"
                     className="hover:cursor-pointer"
+                    highlightOnHover
                 />}
-                <dialog id="userModal" className="modal">
-                    <div className="modal-box">
-                        <h3 className="font-bold text-lg text-yellow-600">USER DETAILS</h3>
-                        <p className="py-2"><span className="font-bold text-yellow-600 text-lg">Name : </span> {userDisplay.name}</p>
-                        <p className="py-2"><span className="font-bold text-yellow-600 text-lg">Email : </span> {userDisplay.email}</p>
-                        <p className="py-2"><span className="font-bold text-yellow-600 text-lg">Status : </span> {userDisplay.userStatus}</p>
-                        <p className="py-2"><span className="font-bold text-yellow-600 text-lg">Type : </span> {userDisplay.userType}</p>
-                        <p className="py-2"><span className="font-bold text-yellow-600 text-lg">Client Name : </span> {userDisplay.clientName}</p>
-                    </div>
-                    <form method="dialog" className="modal-backdrop">
-                        <button>close</button>
-                    </form>
-                </dialog>
+                <UserDetailsModal key={userDisplay.id} user={userDisplay}/>
             </div>
         </HomeLayout>
     );
