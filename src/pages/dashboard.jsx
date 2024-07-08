@@ -88,7 +88,7 @@ function Dashboard() {
                         pagination
                         theme="solarized"
                     />}
-                    <TicketDetailsModal ticket={selectedTicket}/>
+                    <TicketDetailsModal ticket={selectedTicket} key={selectedTicket._id}/>
                 </div>
 
             </div>
