@@ -14,8 +14,10 @@ function useTickets () {
 
     async function loadTickets(){
         if(ticketState.downloadedTickets.length === 0)
+            console.log(searchParams.get("status"));
             await dispatch(getAllTicketsForTheUser(searchParams.get("status")));
         if(searchParams.get("status")){
+            console.log(searchParams.get("status"));
             dispatch(filterTicket({status: searchParams.get("status")}));
         } else {
             dispatch(resetTicketList());

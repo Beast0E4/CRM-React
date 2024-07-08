@@ -58,6 +58,7 @@ const TicketSlice = createSlice({
         filterTicket: (state, action) => {
             let status = action.payload.status.toLowerCase();
             if(status === "in progress") status = "inProgress";
+            if(status === "on hold") status = "onHold";
             state.ticketList = state.downloadedTickets.filter((ticket) => ticket.status === status);
         },
         resetTicketList: (state) => {
@@ -90,7 +91,7 @@ const TicketSlice = createSlice({
                 return ticket;
             });
             state.downloadedTickets = state.downloadedTickets.map((ticket) => {
-                if(ticket.id === updatedTicket._id) return updatedTicket;
+                if(ticket._id === updatedTicket._id) return updatedTicket;
                 return ticket;
             });
             state.ticketDistribution = {

@@ -36,6 +36,7 @@ function HomeLayout( {children}) {
                         <li><Link to={'/'}>Home</Link></li>
                         <li><Link to={'/dashboard'}>Dashboard</Link></li>
                         {authState.role === 'admin' && <li><Link to={'/users'}>View all users</Link></li>}
+                        {authState.isLoggedIn && <li><Link to={'/ticket/create'}>Create ticket</Link></li>}
                         <li className="absolute bottom-10">
                             <div className="w-full flex justify-center items-center gap-8">
                                 {
