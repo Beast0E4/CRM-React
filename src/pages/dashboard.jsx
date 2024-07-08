@@ -1,11 +1,14 @@
+import { useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
 
+import TicketDetailsModal from "../components/TicketDetails.modal";
 import useTickets from "../hooks/useTickets";
 import HomeLayout from "../layouts/homelayout";
 
 function Dashboard() {
 
     const [ticketState] = useTickets();
+    const [selectedTicket, setSelectedTicket] = useState({});
 
     const ExpandedComponent = ({ data }) => <pre>{JSON.stringify(data, null, 2)}</pre>;
 
@@ -73,6 +76,10 @@ function Dashboard() {
                 </div>
                 <div className="w-full ">
                     {ticketState && <DataTable
+                        onRowClicked={(row) => {
+                            setSelectedTicket(row)
+                            document.getElementById('ticket_modal').showModal();
+                        }}
                         columns={columns}
                         data={ticketState.ticketList}
                         expandableRows 
@@ -81,6 +88,7 @@ function Dashboard() {
                         pagination
                         theme="solarized"
                     />}
+                    <TicketDetailsModal ticket={selectedTicket}/>
                 </div>
 
             </div>
