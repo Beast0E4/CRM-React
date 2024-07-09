@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -66,11 +66,23 @@ function resetSignUpState() {
     dropdown.open = !dropdown.open;
   }
 
+  const handleKeyPress = useCallback((e) => {
+    if(e.key === 'Enter') document.getElementById('submitButton').click();
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyPress);
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [handleKeyPress]);
+
+
     return (
       <div className="flex justify-center items-center h-[90vh]">
-        <div className="card bg-primary text-primary-content w-96">
+        <div className="card bg-[#268bd2] text-primary-content w-96">
           <div className="card-body flex items-center">
-              <h2 className="card-title text-4xl text-white font-bold">Sign Up</h2>
+              <h2 className="card-title text-4xl text-black font-bold mb-2">Sign Up</h2>
               <input 
                   name="name" 
                   onChange={handleInputChange} 
@@ -125,7 +137,7 @@ function resetSignUpState() {
                   className="input input-bordered w-full max-w-xs text-white" 
               />
               <div className="card-actions w-full mt-4">
-                <button onClick={onSubmit} className="btn btn-warning w-full font-bold text-lg hover:bg-transparent hover:border-1 hover:border-black">SUBMIT</button>
+                <button onClick={onSubmit} id="submitButton" className="btn btn-warning w-full font-bold text-lg hover:bg-transparent hover:border-1 hover:border-black">SUBMIT</button>
               </div>
               <p>
                 Already registered? <Link to="/login" className="underline font-semibold hover:font-bold">Login</Link>

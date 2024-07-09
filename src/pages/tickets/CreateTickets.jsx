@@ -35,6 +35,7 @@ function CreateTicket() {
             return;
         }
         const response = await dispatch(createTicket(ticket));
+        console.log(response);
         if(response?.payload?.status === 201){
             setTicket({
                 title: "",
