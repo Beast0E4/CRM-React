@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -19,12 +20,17 @@ function Signup() {
     clientName: ""
   });
 
+  const [password, setPassword] = useState("");
+
   function handleInputChange(e) {
     const {name, value} = e.target;
-    setSignUpDetails({
-      ...signUpDetails,
-      [name]: value
-    });
+    if(name === 'confirmPassword') setPassword(value);
+    else{
+      setSignUpDetails({
+        ...signUpDetails,
+        [name]: value
+      });
+    }
   }
 
 function resetSignUpState() {
@@ -40,6 +46,9 @@ function resetSignUpState() {
 
   async function onSubmit() {
     if(!signUpDetails.email || !signUpDetails.password || !signUpDetails.userStatus || !signUpDetails.userType || !signUpDetails.clientName || !signUpDetails.name) return;
+    if(signUpDetails.password != password){
+      toast.error('The passwords do not match'); return;
+    }
     const response = await dispatch(signup(signUpDetails));
     console.log(response);
     if(response.payload) navigate("/login");
@@ -87,6 +96,15 @@ function resetSignUpState() {
                   type="password" 
                   placeholder="Password..." 
                   value={signUpDetails.password}
+                  className="input input-bordered w-full max-w-xs text-white" 
+              />
+              <input 
+                  name="confirmPassword" 
+                  onChange={handleInputChange} 
+                  autoComplete="one-time-code" 
+                  type="password" 
+                  value={password}
+                  placeholder="Confirm Password..." 
                   className="input input-bordered w-full max-w-xs text-white" 
               />
               <details className="dropdown w-full" id="userTypeDropdown">

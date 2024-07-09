@@ -13,6 +13,7 @@ function useTickets () {
     const dispatch = useDispatch();
 
     async function loadTickets(){
+        console.log(searchParams);
         if(ticketState.downloadedTickets.length === 0){
             if(authState.role === 'customer'){
                 await dispatch(getAllCreatedTicketsForTheUser(searchParams.get("status")));
@@ -22,7 +23,6 @@ function useTickets () {
 
         }
         if(searchParams.get("status")){
-            console.log(searchParams.get("status"));
             dispatch(filterTicket({status: searchParams.get("status")}));
         } else {
             dispatch(resetTicketList());

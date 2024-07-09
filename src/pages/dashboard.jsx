@@ -1,5 +1,6 @@
 import { useState } from "react";
 import DataTable, { createTheme } from "react-data-table-component";
+import { useSelector } from "react-redux";
 
 import TicketDetailsModal from "../components/TicketDetails.modal";
 import useTickets from "../hooks/useTickets";
@@ -9,6 +10,7 @@ function Dashboard() {
 
     const [ticketState] = useTickets();
     const [selectedTicket, setSelectedTicket] = useState({});
+    const auth = useSelector((state) => state.auth);
 
     const ExpandedComponent = ({ data }) => <pre>{JSON.stringify(data, null, 2)}</pre>;
 
@@ -68,6 +70,12 @@ function Dashboard() {
         },
       }, 'dark');
 
+      function showTicket(row) {
+        if(auth.data.userType === 'customer') return;
+        setSelectedTicket(row);
+        document.getElementById('ticket_modal').showModal();
+      }
+
     return (
         <HomeLayout>
             <div className="min-h-[90vh] flex flex-col items-center justify-center gap-2" id="table">
@@ -76,10 +84,7 @@ function Dashboard() {
                 </div>
                 <div className="w-full ">
                     {ticketState && <DataTable
-                        onRowClicked={(row) => {
-                            setSelectedTicket(row)
-                            document.getElementById('ticket_modal').showModal();
-                        }}
+                        onRowClicked={(row) => showTicket(row)}
                         columns={columns}
                         data={ticketState.ticketList}
                         expandableRows 
