@@ -47,7 +47,7 @@ function HomeLayout( {children}) {
                                         </>
                                     ) : (
                                         <>
-                                            <Link className="btn-secondary px-7 py-1 bg-cyan-400 rounded-md font-semibold">Profile</Link>
+                                            <Link className="btn-secondary px-7 py-1 bg-cyan-400 rounded-md font-semibold" to={'/profile'}>Profile</Link>
                                             <button className="btn-primary px-7 py-1 bg-cyan-40 bg-cyan-400 font-semibold rounded-md" onClick={onLogout}>Logout</button>
                                         </>
                                     )

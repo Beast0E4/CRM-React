@@ -79,7 +79,7 @@ function Dashboard() {
     return (
         <HomeLayout>
             <div className="min-h-[90vh] flex flex-col items-center justify-center gap-2" id="table">
-                <div className="bg-[#3FA2F6] text-black w-full text-center text-3xl p-4 font-bold">
+                <div className="bg-blue-400 text-black w-full text-center text-3xl p-4 font-bold">
                     Tickets Records 
                 </div>
                 <div className="w-full ">
