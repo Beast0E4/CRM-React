@@ -20,7 +20,6 @@ function useTickets () {
             } else {
                 await dispatch(getAllTicketsForTheUser(searchParams.get("status")));
             }
-
         }
         if(searchParams.get("status")){
             dispatch(filterTicket({status: searchParams.get("status")}));
